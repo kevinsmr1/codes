@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #eee; }
+#board { width: 480px; height: 480px; }
+.square { width: 60px; height: 60px; float: left; }
+.light { background-color: #ddd; }
+.dark { background-color: #555; }
+.piece { width: 60px; height: 60px; }
+</style>
+</head>
+<body>
+<div id="board"></div>
+<script>
+var board = document.getElementById('board');
+var selectedPiece = null;
+
+// Crear el tablero
+for (var i = 0; i < 64; i++) {
+  var square = document.createElement('div');
+  square.className = 'square ' + ((i + Math.floor(i/8)) % 2 === 0 ? 'light' : 'dark');
+  board.appendChild(square);
+}
+
+// Agregar piezas (esto es solo un ejemplo, no es un juego de ajedrez real)
+var squares = document.getElementsByClassName('square');
+for (var i = 0; i < 16; i++) {
+  var piece = document.createElement('div');
+  piece.className = 'piece';
+  piece.style.backgroundColor = i < 8 ? 'black' : 'white';
+  squares[i].appendChild(piece);
+  squares[63 - i].appendChild(piece.cloneNode());
+}
+
+// Mover las piezas
+for (var i = 0; i < squares.length; i++) {
+  squares[i].addEventListener('click', function() {
+    if (selectedPiece) {
+      this.appendChild(selectedPiece);
+      selectedPiece = null;
+    } else if (this.children.length > 0) {
+      selectedPiece = this.removeChild(this.firstChild);
+    }
+  });
+}
+</script>
+</body>
+</html>
